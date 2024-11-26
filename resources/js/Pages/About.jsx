@@ -28,7 +28,6 @@ const About = () => {
                         >
                             Register
                         </Link>
-// fdsfsdf
                         <Link
                             href={route('login')}
                             className="bg-black border-2 border-white font-semibold text-white px-4 py-2 rounded-md hover:bg-gray-800"
@@ -87,7 +86,7 @@ const About = () => {
                         <input
                             type="email"
                             placeholder="Enter your email here"
-                            className="w-2/3 md:w-1/3 p-3 rounded-l-lg"
+                            className="w-2/3 md:w-1/3 p-3 rounded-l-lg text-black"
                         />
                         <button className="bg-red-600 px-6 py-3 rounded-r-lg text-white hover:bg-red-500">
                             Subscribe
