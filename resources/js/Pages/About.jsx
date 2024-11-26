@@ -1,48 +1,5 @@
-// import React from 'react';
-// import { Head } from '@inertiajs/inertia-react';
-//
-// const About = () => {
-//     return (
-//         <div className="text-center p-6">
-//             {/* Set the page title */}
-//         <Head>
-//             <title>About Us - Computer Parts Store</title>
-//             <meta name="description" content="Your page description" />
-//         </Head>
-//
-//
-//             <h1 className="text-3xl font-bold mt-6">About Us</h1>
-//             <p className="mt-4 text-lg">
-//                 Welcome to our Computer Parts Store! We are dedicated to providing the best components for building and upgrading your PC.
-//             </p>
-//             <p className="mt-4 text-lg">
-//                 Whether you're a gamer, a developer, or just someone who loves tinkering with technology, we have everything you need.
-//             </p>
-//             <p className="mt-4 text-lg">
-//                 Our mission is to offer top-quality products at competitive prices, paired with excellent customer service.
-//             </p>
-//         </div>
-//     );
-// };
-//
-// export default About;
-
-
-// import React from 'react';
-// import { Head } from '@inertiajs/react';
-//
-// const About = () => {
-//     return (
-//         <div className="text-center p-6">
-//          <h1>About Us Page</h1>
-//         </div>
-//     )
-// };
-//
-// export default About;
-
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import { Link, Head } from '@inertiajs/react';
 
 const About = () => {
     return (
@@ -144,7 +101,7 @@ const About = () => {
                         Discord
                     </a>
                 </div>
-                <p>&copy; E-componenty, 2024</p>
+                <p>&copy; eKomponenty, 2024</p>
             </footer>
         </div>
     );
