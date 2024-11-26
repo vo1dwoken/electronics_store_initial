@@ -14,6 +14,10 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+Route::get('/about', function () {
+    return Inertia::render('About'); // This points to the About.jsx file
+})->name('about');
+
 
 Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
 Route::get('/categories', [CategoryController::class, 'index']);
