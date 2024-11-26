@@ -22,12 +22,18 @@ const About = () => {
                         Shop from a wide range of computer parts and accessories
                     </p>
                     <div className="flex justify-center gap-4">
-                        <button className="bg-white text-black font-semibold px-4 py-2 rounded-md hover:bg-gray-200">
+                        <Link
+                            href={route('register')}
+                            className="bg-white text-black font-semibold px-4 py-2 rounded-md hover:bg-gray-200"
+                        >
                             Register
-                        </button>
-                        <button className="bg-black border-2 border-white font-semibold text-white px-4 py-2 rounded-md hover:bg-gray-800">
-                            Login
-                        </button>
+                        </Link>
+                        <Link
+                            href={route('login')}
+                            className="bg-black border-2 border-white font-semibold text-white px-4 py-2 rounded-md hover:bg-gray-800"
+                        >
+                            Log in
+                        </Link>
                     </div>
                 </section>
 
