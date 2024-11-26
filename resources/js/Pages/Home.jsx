@@ -9,6 +9,10 @@ const Home = () => {
             <title>Your page title</title>
             <meta name="description" content="Your page description" />
             </Head>
+//         <Head>
+//             <title>About Us - Computer Parts Store</title>
+//             <meta name="description" content="Your page description" />
+//         </Head>
         <h1>Welcome to the Store</h1>
 {/* Login and Register Links */}
             <div className="mt-8">
