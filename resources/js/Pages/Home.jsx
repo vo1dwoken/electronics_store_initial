@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Footer from '../Components/Footer';
 import { Link, Head } from '@inertiajs/react';
 //
 // const Home = () => {
@@ -46,7 +47,10 @@ const Home = () => {
 
             {/* Navbar */}
             <header className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
-                <h1 className="text-xl font-bold">E-componenty</h1>
+                <Link to="/" className="text-xl font-bold">
+                    E-componenty
+                </Link>
+                {/* <h1 className="text-xl font-bold">E-componenty</h1> */}
                 <div className="flex items-center gap-6">
                     <input
                         type="text"
@@ -75,8 +79,7 @@ const Home = () => {
             {/* Breadcrumbs */}
             <div className="px-6 py-2 text-gray-400 text-sm">
                 <span className="hover:text-white cursor-pointer">Home</span> /
-                <span className="hover:text-white cursor-pointer"> Manufacturer</span> /
-                <span className="text-white"> AMD</span>
+                <span className="text-white"> Shop</span>
             </div>
 
             {/* Main Section */}
@@ -98,26 +101,29 @@ const Home = () => {
                 {/* Filters and Sorting */}
                 <div className="flex justify-between items-start">
                     {/* Filters */}
-                    <aside className="w-1/4 bg-gray-900 p-4 rounded-lg">
+                    <aside className="w-1/4 bg-gray-900 p-4 rounded-lg mr-6">
                         <h3 className="text-lg font-bold mb-4">Part type</h3>
                         <ul className="text-sm text-gray-400 mb-6">
                             <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Price</span> (10,446)
+                                <span className="cursor-pointer hover:text-white">Motherboards</span> (999)
                             </li>
                             <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Part type</span> (2,408)
+                                <span className="cursor-pointer hover:text-white">Proccesors</span> (999)
                             </li>
                             <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Power supply</span> (101)
+                                <span className="cursor-pointer hover:text-white">Graphic cards</span> (999)
+                            </li>
+                            <li className="mb-2">
+                                <span className="cursor-pointer hover:text-white">Power supplies</span> (999)
                             </li>
                         </ul>
                         <h3 className="text-lg font-bold mb-4">Filter by</h3>
                         <ul className="text-sm text-gray-400">
                             <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Computer parts</span> (7,002)
+                                <span className="cursor-pointer hover:text-white">Price</span> (0-9999)
                             </li>
                             <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Sale</span> (4,208)
+                                <span className="cursor-pointer hover:text-white">Manufacturers</span> (30)
                             </li>
                         </ul>
                     </aside>
@@ -138,7 +144,7 @@ const Home = () => {
                                 )}
                             </div>
                             <select
-                                className="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+                                className="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 pr-8"
                             >
                                 <option>Sort by: Recommended</option>
                                 <option>Price: Low to High</option>
@@ -169,11 +175,13 @@ const Home = () => {
                     </div>
                 </div>
             </main>
-
-            {/* Footer */}
-            <footer className="mt-16 bg-gray-900 text-gray-400 py-6 px-6">
+            <Footer pageStyle="home" />
+            {/* <footer className="mt-16 bg-gray-900 text-gray-400 py-6 px-6">
                 <div className="flex justify-between items-center">
                     <div className="flex space-x-6">
+                        <a href="#" className="hover:text-white pr-6">
+                            Privacy
+                        </a>
                         <a href="#" className="hover:text-white">
                             Instagram
                         </a>
@@ -186,7 +194,7 @@ const Home = () => {
                     </div>
                     <p>&copy; E-componenty 2024</p>
                 </div>
-            </footer>
+            </footer> */}
         </div>
     );
 };
