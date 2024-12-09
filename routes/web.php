@@ -14,8 +14,8 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
-
-Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
+Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/cart', [CartController::class, 'index']);  // Кошик
 Route::get('/checkout', [CheckoutController::class, 'index']);  // Оформлення замовлення
@@ -32,6 +32,9 @@ Route::get('/about', function () {
     return Inertia::render('About'); // This points to the About.jsx file
 })->name('about');
 
+Route::get('/privacy', function () {
+    return Inertia::render('Privacy'); // This points to the Privacy.jsx file
+})->name('privacy');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
@@ -53,4 +56,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

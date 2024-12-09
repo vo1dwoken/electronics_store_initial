@@ -1,26 +1,14 @@
 import React from 'react';
 import { Link, Head } from '@inertiajs/react';
 import Footer from '../Components/Footer';
+import Header from "../Components/Header";
 
 const About = () => {
     return (
         <div className="bg-black text-white min-h-screen p-6">
             <Head title="About Us" />
-            <header className="flex justify-between items-center mb-12">
-                <Link to="/" className="text-3xl font-bold">
-                    E-componenty
-                </Link>
-                {/* <h1 className="text-3xl font-bold">eKomponenty</h1> */}
-                {/* <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">
-                    Authenticate
-                </button> */}
-                <Link
-                    href={route('register')}
-                    className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700"
-                >
-                    Register
-                </Link>
-            </header>
+
+            <Header page="about" />
 
             <main>
                 {/* Hero Section */}
@@ -105,23 +93,7 @@ const About = () => {
                 </section>
             </main>
             <Footer page="about" />
-            {/* <footer className="mt-16 flex justify-between items-center text-gray-400">
-                <div className="flex gap-4">
-                    <a href="#" className="hover:text-white pr-6">
-                        Privacy
-                    </a>
-                    <a href="#" className="hover:text-white">
-                        Instagram
-                    </a>
-                    <a href="#" className="hover:text-white">
-                        Twitter
-                    </a>
-                    <a href="#" className="hover:text-white">
-                        Discord
-                    </a>
-                </div>
-                <p>&copy; eKomponenty, 2024</p>
-            </footer> */}
+
         </div>
     );
 };
