@@ -2,23 +2,25 @@
 
 use App\Http\Controllers\ProfileController;
 
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 use App\Http\Controllers\ProductController;
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/cart', [CartController::class, 'index']);  // Кошик
-Route::get('/checkout', [CheckoutController::class, 'index']);  // Оформлення замовлення
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+')->name('products.show');
+Route::get('/category/{type}', [HomeController::class, 'category'])->name('category');
+
+// Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+//
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+// // Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
+// Route::get('/categories', [CategoryController::class, 'index']);
+// Route::get('/cart', [CartController::class, 'index']);  // Кошик
+// Route::get('/checkout', [CheckoutController::class, 'index']);  // Оформлення замовлення
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),
