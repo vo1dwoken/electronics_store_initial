@@ -1,10 +1,31 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Footer from '../Components/Footer';
 import Header from "../Components/Header";
+import ProductCard from '../Components/ProductCard';
 import { Link, Head } from '@inertiajs/react';
 
-const Home = () => {
+const Home = ({ products }) => {
+    const [sortOption, setSortOption] = useState('Recommended');
+    const [visibleProductsCount, setVisibleProductsCount] = useState(8); // Стан для кількості видимих продуктів
+
+    // Функція для сортування продуктів
+    const sortedProducts = () => {
+        if (sortOption === 'Price: Low to High') {
+            return [...products].sort((a, b) => a.price - b.price);
+        } else if (sortOption === 'Price: High to Low') {
+            return [...products].sort((a, b) => b.price - a.price);
+        }
+        return products; // Якщо "Recommended", просто відображаємо як є
+    };
+
+    // Відображаємо лише потрібну кількість продуктів
+    const displayedProducts = sortedProducts().slice(0, visibleProductsCount);
+
+    // Функція для завантаження наступної порції продуктів
+    const loadMoreProducts = () => {
+        setVisibleProductsCount(visibleProductsCount + 8); // Завантажуємо ще 8 продуктів
+    };
+
     return (
         <div className="bg-black text-white min-h-screen">
             <Head title="Home" />
@@ -93,6 +114,8 @@ const Home = () => {
                             </div>
                             <select
                                 className="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 pr-8"
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
                             >
                                 <option>Sort by: Recommended</option>
                                 <option>Price: Low to High</option>
@@ -102,30 +125,27 @@ const Home = () => {
 
                         {/* Product Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {Array(8)
-                                .fill(0)
-                                .map((_, index) => (
-                                    <div
-                                        key={index}
-                                        className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700"
-                                    >
-                                        <div className="bg-gray-600 h-40 mb-4 rounded-md"></div>
-                                        <h4 className="text-lg font-semibold mb-2">
-                                            Product Name
-                                        </h4>
-                                        <p className="text-gray-400 mb-2">$24</p>
-                                        <button className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600">
-                                            Buy
-                                        </button>
-                                    </div>
-                                ))}
+                            {displayedProducts.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
                         </div>
+
+                        {/* Load More Button */}
+                        {displayedProducts.length < products.length && (
+                            <div className="flex justify-center mt-6">
+                                <button
+                                    onClick={loadMoreProducts}
+                                    className="bg-gray-800 text-gray-400 px-6 py-3 rounded-lg hover:bg-gray-700 hover:text-white"
+                                >
+                                    Show more
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </main>
 
             <Footer page="home" />
-
         </div>
     );
 };

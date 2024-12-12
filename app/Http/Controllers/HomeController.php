@@ -8,16 +8,35 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
+    // public function index()
+    // {
+    //     // Випадкові продукти для рекомендацій
+    //     $recommendedProducts = Product::inRandomOrder()->take(8)->get();
+
+    //     // Отримати унікальні категорії з таблиці продуктів
+    //     $categories = Product::distinct()->pluck('type');
+
+    //     return view('home', compact('recommendedProducts', 'categories'));
+    // }
+
     public function index()
     {
-        // Випадкові продукти для рекомендацій
+        // Отримати випадкові продукти
         $recommendedProducts = Product::inRandomOrder()->take(8)->get();
 
-        // Отримати унікальні категорії з таблиці продуктів
+        // Отримати унікальні категорії
         $categories = Product::distinct()->pluck('type');
 
-        return view('home', compact('recommendedProducts', 'categories'));
+        $products = Product::all();
+
+        // Повернути дані у Home.jsx
+        return Inertia::render('Home', [
+            'recommendedProducts' => $recommendedProducts,
+            'categories' => $categories,
+            'products' => $products,
+        ]);
     }
+
 
     private function getFiltersForType($type)
     {
@@ -76,14 +95,14 @@ class HomeController extends Controller
             ];
         }
 
-//        $products = Product::where('type', $type)->filter($queryFilters)->get();
+        //        $products = Product::where('type', $type)->filter($queryFilters)->get();
         $products = Product::where('type', $type)->get();
 
-//        $availableFilters = $this->getFiltersForType($type);
+        //        $availableFilters = $this->getFiltersForType($type);
         return Inertia::render('Category', [
             'products' => $products,
             'type' => $type,
         ]);
-//        return view('category', compact('products', 'type', 'availableFilters'));
+        //        return view('category', compact('products', 'type', 'availableFilters'));
     }
 }
