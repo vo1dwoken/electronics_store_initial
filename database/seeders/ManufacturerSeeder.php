@@ -9,24 +9,12 @@ class ManufacturerSeeder extends Seeder
 {
     public function run()
     {
-        Manufacturer::create([
-            'name' => 'Intel',
-        ]);
+        $manufacturers = [
+            'Intel', 'AMD', 'NVIDIA', 'ASUS', 'Gigabyte',
+        ];
 
-        Manufacturer::create([
-            'name' => 'AMD',
-        ]);
-
-        Manufacturer::create([
-            'name' => 'NVIDIA',
-        ]);
-
-        Manufacturer::create([
-            'name' => 'ASUS',
-        ]);
-
-        Manufacturer::create([
-            'name' => 'Gigabyte',
-        ]);
+        foreach ($manufacturers as $name) {
+            Manufacturer::firstOrCreate(['name' => $name]);
+        }
     }
 }
