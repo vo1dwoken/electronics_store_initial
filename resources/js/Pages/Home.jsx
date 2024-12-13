@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import Footer from '../Components/Footer';
 import Header from "../Components/Header";
 import ProductCard from '../Components/ProductCard';
+import { useRoute } from '../../../vendor/tightenco/ziggy';
 import { Link, Head } from '@inertiajs/react';
+import { InertiaLink } from "@inertiajs/inertia-react";
 
-const Home = ({ products }) => {
+const Home = ({ products, categories }) => {
+    const route = useRoute();
     const [sortOption, setSortOption] = useState('Recommended');
     const [visibleProductsCount, setVisibleProductsCount] = useState(8); // Стан для кількості видимих продуктів
 
@@ -26,6 +29,8 @@ const Home = ({ products }) => {
         setVisibleProductsCount(visibleProductsCount + 8); // Завантажуємо ще 8 продуктів
     };
 
+// Відображення категорій
+
     return (
         <div className="bg-black text-white min-h-screen">
             <Head title="Home" />
@@ -33,17 +38,30 @@ const Home = ({ products }) => {
             <Header page="home" />
 
             {/* Sub Navbar */}
+{/*<nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">*/}
+{/*                {categories.map((category, index) => (*/}
+{/*                    <Link key={index}*/}
+{/*                        // href={`/category/${category}`}*/}
+{/*                        href=route('category', {$type})*/}
+{/*                        className="hover:text-white transition-colors">*/}
+{/*                        {category.charAt(0).toUpperCase() + category.slice(1)}*/}
+{/*                    </Link>*/}
+{/*                ))}*/}
+{/*            </nav>*/}
+
             <nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">
-                {['Processors', 'Motherboards', 'Memory', 'Storage', 'Graphics', 'Power Supplies'].map((item, index) => (
-                    <Link
-                        key={index}
-                        href="#"
-                        className="hover:text-white transition-colors"
-                    >
-                        {item}
-                    </Link>
-                ))}
+        {categories.map((category, index) => (
+        <Link
+          key={index}
+          href={route('category', { type: category })}
+          className="btn-indigo-500"
+        >
+          {category}
+        </Link>
+      ))}
+                <a class="btn-indigo" href={route('foo')}>foo</a>
             </nav>
+
 
             {/* Breadcrumbs */}
             <div className="px-6 py-2 text-gray-400 text-sm">

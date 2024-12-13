@@ -1,9 +1,11 @@
-
 import React, { useState } from 'react';
 import { usePage } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
+import { useRoute } from '../../../vendor/tightenco/ziggy';
+import { Link } from '@inertiajs/react';
 
 const Products = () => {
+    const route = useRoute();
     const { products, filters } = usePage().props;
     const [filterParams, setFilterParams] = useState(filters);
 
@@ -73,13 +75,13 @@ const Products = () => {
             {/* Pagination */}
             <div>
                 {products.links.map((link, index) => (
-                    <a
+                    <Link
                         key={index}
                         href={link.url}
                         className={link.active ? 'font-bold' : ''}
                     >
                         {link.label}
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>

@@ -13,7 +13,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+')->name('products.show');
 Route::get('/category/{type}', [HomeController::class, 'category'])->name('category');
-
+Route::get("/foo", function () {
+    return "Hello";
+})->name('foo');
 // Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 //
 // Route::get('/', [HomeController::class, 'index'])->name('home');

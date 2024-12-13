@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -23,13 +24,24 @@ class ProductController extends Controller
 
         $products = $query->get();
 
-        return view('products.index', compact('products'));
+        // return view('products.index', compact('products'));
+           return Inertia::render('Products/Index', [
+            'products' => $products,
+            'filters' => [
+                'category' => $request->category,
+                'sort_by' => $request->sort_by,
+                'direction' => $request->direction,
+            ],
+        ]);
     }
 
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        // return view('products.show', compact('product'));
+        return Inertia::render('Products/Show', [
+            'product' => $product,
+        ]);
     }
 }
 // <?php
