@@ -40,6 +40,12 @@ Route::get('/privacy', function () {
     return Inertia::render('Privacy'); // This points to the Privacy.jsx file
 })->name('privacy');
 
+Route::get('/product', function () {
+    return Inertia::render('Product'); // This points to the Privacy.jsx file
+})->name('product');
+
+// Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');

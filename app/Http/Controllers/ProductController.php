@@ -22,10 +22,12 @@ class ProductController extends Controller
             $query->orderBy($request->sort_by, $request->direction ?? 'asc');
         }
 
-        $products = $query->get();
+        // $products = $query->get();
+
+        $products = $query->with('manufacturer')->get();
 
         // return view('products.index', compact('products'));
-           return Inertia::render('Products/Index', [
+        return Inertia::render('Products/Index', [
             'products' => $products,
             'filters' => [
                 'category' => $request->category,
@@ -35,14 +37,38 @@ class ProductController extends Controller
         ]);
     }
 
+    // public function show($id)
+    // {
+    //     $product = Product::findOrFail($id);
+    //     // return view('products.show', compact('product'));
+    //     return Inertia::render('Products/Show', [
+    //         'product' => $product,
+    //     ]);
+    // }
+    // public function show($id)
+    // {
+    //     $product = Product::findOrFail($id);
+    //     return inertia('Product', [
+    //         'product' => $product,
+    //     ]);
+    // }
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        // return view('products.show', compact('product'));
-        return Inertia::render('Products/Show', [
-            'product' => $product,
+        $product = Product::with('manufacturer')->findOrFail($id);
+
+        return Inertia::render('Product', [
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $product->price,
+                'stock' => $product->stock,
+                'image' => $product->image,
+                'manufacturer' => $product->manufacturer->name ?? 'Unknown', // Назва виробника
+            ],
         ]);
     }
+
 }
 // <?php
 // namespace App\Http\Controllers;

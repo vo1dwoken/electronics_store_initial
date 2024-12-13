@@ -29,7 +29,7 @@ const Home = ({ products, categories }) => {
         setVisibleProductsCount(visibleProductsCount + 8); // Завантажуємо ще 8 продуктів
     };
 
-// Відображення категорій
+    // Відображення категорій
 
     return (
         <div className="bg-black text-white min-h-screen">
@@ -38,43 +38,43 @@ const Home = ({ products, categories }) => {
             <Header page="home" />
 
             {/* Sub Navbar */}
-{/*<nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">*/}
-{/*                {categories.map((category, index) => (*/}
-{/*                    <Link key={index}*/}
-{/*                        // href={`/category/${category}`}*/}
-{/*                        href=route('category', {$type})*/}
-{/*                        className="hover:text-white transition-colors">*/}
-{/*                        {category.charAt(0).toUpperCase() + category.slice(1)}*/}
-{/*                    </Link>*/}
-{/*                ))}*/}
-{/*            </nav>*/}
+            {/*<nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">*/}
+            {/*                {categories.map((category, index) => (*/}
+            {/*                    <Link key={index}*/}
+            {/*                        // href={`/category/${category}`}*/}
+            {/*                        href=route('category', {$type})*/}
+            {/*                        className="hover:text-white transition-colors">*/}
+            {/*                        {category.charAt(0).toUpperCase() + category.slice(1)}*/}
+            {/*                    </Link>*/}
+            {/*                ))}*/}
+            {/*            </nav>*/}
 
-            <nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">
-        {categories.map((category, index) => (
-        <Link
-          key={index}
-          href={route('category', { type: category })}
-          className="btn-indigo-500"
-        >
-          {category}
-        </Link>
-      ))}
+            {/* <nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">
+                {categories.map((category, index) => (
+                    <Link
+                        key={index}
+                        href={route('category', { type: category })}
+                        className="btn-indigo-500"
+                    >
+                        {category}
+                    </Link>
+                ))}
                 <a class="btn-indigo" href={route('foo')}>foo</a>
-            </nav>
+            </nav> */}
 
 
             {/* Breadcrumbs */}
-            <div className="px-6 py-2 text-gray-400 text-sm">
+            {/* <div className="px-6 py-2 text-gray-400 text-sm">
                 <span className="hover:text-white cursor-pointer"><Link href={route('about')}>About</Link></span> /
                 <span className="text-white"> Shop</span>
-            </div>
+            </div> */}
 
             {/* Main Section */}
             <main className="px-6 py-8">
                 <h2 className="text-2xl font-bold mb-6">Computer parts</h2>
 
                 {/* Categories Filter */}
-                <div className="flex gap-4 mb-6">
+                <div className="flex gap-3 mb-6">
                     {['Intel', 'Nvidia', 'Asus', 'Gigabyte', 'MSI'].map((category, index) => (
                         <button
                             key={index}
