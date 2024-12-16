@@ -7,29 +7,70 @@ import { Link, Head } from '@inertiajs/react';
 import { InertiaLink } from "@inertiajs/inertia-react";
 
 const Home = ({ products, categories }) => {
-    const route = useRoute();
     const [sortOption, setSortOption] = useState('Recommended');
     const [visibleProductsCount, setVisibleProductsCount] = useState(8); // Стан для кількості видимих продуктів
+    const [selectedPartTypes, setSelectedPartTypes] = useState([]); // Фільтри по типу компонентів
+    const [minPrice, setMinPrice] = useState(0); // Мінімальна ціна
+    const [maxPrice, setMaxPrice] = useState(9999); // Максимальна ціна
 
-    // Функція для сортування продуктів
-    const sortedProducts = () => {
-        if (sortOption === 'Price: Low to High') {
-            return [...products].sort((a, b) => a.price - b.price);
-        } else if (sortOption === 'Price: High to Low') {
-            return [...products].sort((a, b) => b.price - a.price);
-        }
-        return products; // Якщо "Recommended", просто відображаємо як є
+    // Функція для вибору типів компонентів
+    const togglePartType = (category) => {
+        setSelectedPartTypes((prev) =>
+            prev.includes(category)
+                ? prev.filter((item) => item !== category) // Видаляємо, якщо вже вибрано
+                : [...prev, category] // Додаємо новий тип
+        );
     };
 
-    // Відображаємо лише потрібну кількість продуктів
-    const displayedProducts = sortedProducts().slice(0, visibleProductsCount);
+    // Функція для зміни мінімальної ціни
+    const handleMinPriceChange = (e) => {
+        const value = Number(e.target.value); // Перетворюємо на число
+        if (value <= maxPrice) {
+            setMinPrice(value); // Оновлюємо мінімальну ціну тільки якщо вона не перевищує максимальну
+        }
+    };
+
+    // Функція для зміни максимальної ціни
+    const handleMaxPriceChange = (e) => {
+        const value = Number(e.target.value); // Перетворюємо на число
+        if (value >= minPrice) {
+            setMaxPrice(value); // Оновлюємо максимальну ціну тільки якщо вона не менша за мінімальну
+        }
+    };
+
+
+
+    // Фільтрація, сортування і обмеження кількості продуктів
+    const filteredProducts = () => {
+        let result = products;
+
+        // Фільтр за Part type
+        if (selectedPartTypes.length > 0) {
+            result = result.filter((product) =>
+                selectedPartTypes.includes(product.type)
+            );
+        }
+
+        // Фільтр за ціною
+        result = result.filter((product) => product.price >= minPrice && product.price <= maxPrice);
+
+        // Сортування
+        if (sortOption === 'Price: Low to High') {
+            result = [...result].sort((a, b) => a.price - b.price);
+        } else if (sortOption === 'Price: High to Low') {
+            result = [...result].sort((a, b) => b.price - a.price);
+        }
+
+        // Обмеження кількості
+        return result.slice(0, visibleProductsCount);
+    };
+
+    const displayedProducts = filteredProducts();
 
     // Функція для завантаження наступної порції продуктів
     const loadMoreProducts = () => {
         setVisibleProductsCount(visibleProductsCount + 8); // Завантажуємо ще 8 продуктів
     };
-
-    // Відображення категорій
 
     return (
         <div className="bg-black text-white min-h-screen">
@@ -37,53 +78,9 @@ const Home = ({ products, categories }) => {
 
             <Header page="home" />
 
-            {/* Sub Navbar */}
-            {/*<nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">*/}
-            {/*                {categories.map((category, index) => (*/}
-            {/*                    <Link key={index}*/}
-            {/*                        // href={`/category/${category}`}*/}
-            {/*                        href=route('category', {$type})*/}
-            {/*                        className="hover:text-white transition-colors">*/}
-            {/*                        {category.charAt(0).toUpperCase() + category.slice(1)}*/}
-            {/*                    </Link>*/}
-            {/*                ))}*/}
-            {/*            </nav>*/}
-
-            {/* <nav className="flex justify-center space-x-4 py-4 bg-gray-900 text-gray-400 text-sm">
-                {categories.map((category, index) => (
-                    <Link
-                        key={index}
-                        href={route('category', { type: category })}
-                        className="btn-indigo-500"
-                    >
-                        {category}
-                    </Link>
-                ))}
-                <a class="btn-indigo" href={route('foo')}>foo</a>
-            </nav> */}
-
-
-            {/* Breadcrumbs */}
-            {/* <div className="px-6 py-2 text-gray-400 text-sm">
-                <span className="hover:text-white cursor-pointer"><Link href={route('about')}>About</Link></span> /
-                <span className="text-white"> Shop</span>
-            </div> */}
-
             {/* Main Section */}
             <main className="px-6 py-8">
                 <h2 className="text-2xl font-bold mb-6">Computer parts</h2>
-
-                {/* Categories Filter */}
-                <div className="flex gap-3 mb-6">
-                    {['Intel', 'Nvidia', 'Asus', 'Gigabyte', 'MSI'].map((category, index) => (
-                        <button
-                            key={index}
-                            className="bg-gray-800 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white"
-                        >
-                            {category}
-                        </button>
-                    ))}
-                </div>
 
                 {/* Filters and Sorting */}
                 <div className="flex justify-between items-start">
@@ -91,53 +88,67 @@ const Home = ({ products, categories }) => {
                     <aside className="w-1/4 bg-gray-900 p-4 rounded-lg mr-6">
                         <h3 className="text-lg font-bold mb-4">Part type</h3>
                         <ul className="text-sm text-gray-400 mb-6">
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Motherboards</span> (999)
-                            </li>
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Proccesors</span> (999)
-                            </li>
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Graphic cards</span> (999)
-                            </li>
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Power supplies</span> (999)
-                            </li>
+                            {categories.map((category) => (
+                                <li key={category} className="mb-2">
+                                    <label className="flex items-center cursor-pointer hover:text-white">
+                                        <input
+                                            type="checkbox"
+                                            className="mr-2"
+                                            checked={selectedPartTypes.includes(category)}
+                                            onChange={() => togglePartType(category)}
+                                        />
+                                        {category}
+                                    </label>
+                                </li>
+                            ))}
                         </ul>
-                        <h3 className="text-lg font-bold mb-4">Filter by</h3>
-                        <ul className="text-sm text-gray-400">
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Price</span> (0-9999)
-                            </li>
-                            <li className="mb-2">
-                                <span className="cursor-pointer hover:text-white">Manufacturers</span> (30)
-                            </li>
-                        </ul>
+                        <h3 className="text-lg font-bold mb-4">Filter by Price</h3>
+                        <div className="mb-6">
+                            <label className="text-sm text-gray-400">Min Price: ${minPrice}</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="9999"
+                                value={minPrice}
+                                onChange={handleMinPriceChange} // Використовуємо оновлену функцію
+                                className="w-full"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <label className="text-sm text-gray-400">Max Price: ${maxPrice}</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="9999"
+                                value={maxPrice}
+                                onChange={handleMaxPriceChange} // Використовуємо оновлену функцію
+                                className="w-full"
+                            />
+                        </div>
+
                     </aside>
 
                     {/* Products Section */}
                     <div className="w-3/4">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex space-x-4">
-                                {['Top rated', 'Bestsellers', 'New arrivals', 'Sale'].map(
-                                    (category, index) => (
-                                        <button
-                                            key={index}
-                                            className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white"
-                                        >
-                                            {category}
-                                        </button>
-                                    )
-                                )}
+                                {['Top rated', 'Bestsellers', 'New arrivals', 'Sale'].map((category, index) => (
+                                    <button
+                                        key={index}
+                                        className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white"
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
                             </div>
                             <select
                                 className="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 pr-8"
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
                             >
-                                <option>Sort by: Recommended</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
+                                <option value="Recommended">Sort by: Recommended</option>
+                                <option value="Price: Low to High">Price: Low to High</option>
+                                <option value="Price: High to Low">Price: High to Low</option>
                             </select>
                         </div>
 

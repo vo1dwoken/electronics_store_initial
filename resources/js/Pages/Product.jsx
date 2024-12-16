@@ -2,18 +2,13 @@ import React from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 
-
-
 const Product = ({ product }) => {
     console.log("Product Image:", product.image);
     console.log("Full Product Object:", product);
 
-
-
-
     return (
         <div className="bg-black text-white min-h-screen">
-            <Header page="product" /> 
+            <Header page="product" />
 
             <main className="px-6 py-8">
                 <div className="max-w-4xl mx-auto bg-gray-900 p-6 rounded-lg">
@@ -25,12 +20,17 @@ const Product = ({ product }) => {
                     />
 
                     <p className="text-gray-400 mb-4">Description: {product.description}</p>
+
+                    {/* Додано відображення типу продукту */}
                     {product.type && (
-                        <p className="text-gray-400 mb-4">Category: {product.type}</p>
+                        <p className="text-gray-400 text-sm mb-1">Type: {product.type}</p>
                     )}
+
+                    {/* Відображення виробника */}
                     {product.manufacturer && (
                         <p className="text-gray-400 mb-4">Manufacturer: {product.manufacturer}</p>
                     )}
+
                     <p className="text-gray-400 mb-4">Stock: {product.stock} items</p>
                     <p className="text-2xl font-bold mb-6">Price: ${product.price}</p>
                     <button className="bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-600">
