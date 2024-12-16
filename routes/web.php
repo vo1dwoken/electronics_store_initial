@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
@@ -16,6 +17,9 @@ Route::get('/category/{type}', [HomeController::class, 'category'])->name('categ
 Route::get("/foo", function () {
     return "Hello";
 })->name('foo');
+
+Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 // Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 //
 // Route::get('/', [HomeController::class, 'index'])->name('home');

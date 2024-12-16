@@ -79,7 +79,7 @@ export default function Login({ status, canResetPassword }) {
                         </span>
                     </label>
                 </div>
-
+                <Link href={route('google.redirect')} class="btn btn-primary"> Login with Google </Link>
                 <div className="mt-4 flex items-center justify-end">
                     {canResetPassword && (
                         <Link
