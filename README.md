@@ -1,3 +1,69 @@
+# Sklep z Częściami Komputerowymi
+
+## Przegląd Biznesowy
+Sklep z Częściami Komputerowymi to platforma internetowa, która upraszcza proces zakupu dla entuzjastów i profesjonalistów zajmujących się komputerami. Oferuje przyjazny interfejs do przeglądania, filtrowania i kupowania komponentów komputerowych, takich jak procesory, karty graficzne, płyty główne i inne. Platforma ma na celu uproszczenie zakupów poprzez zaawansowane filtry wyszukiwania i płynne uwierzytelnianie użytkowników.
+
+### Kluczowe Funkcje:
+- Kategorie Produktów: Komponenty są zorganizowane w kategorie dla łatwiejszej nawigacji.
+- Zaawansowane Filtrowanie: Sortowanie i filtrowanie według ceny, typu i specyfikacji.
+- Uwierzytelnianie Użytkowników: Rejestracja i logowanie za pomocą Google lub e-maila.
+- Koszyk Zakupów: Dodawanie produktów do koszyka i składanie zamówień.
+- Zarządzanie Kontem Klienta: Aktualizacja haseł, adresów e-mail i innych danych konta.
+- Historia Zamówień: Przegląd wcześniejszych zamówień i śledzenie bieżących zakupów.
+
+## Przegląd Techniczny
+
+### Użyte Technologie
+- Frontend: React.js
+- Backend: Laravel
+- Baza Danych: MariaDB
+- Middleware: Inertia.js
+
+### Schemat Bazy Danych
+Baza danych została zaprojektowana do efektywnego zarządzania produktami, kategoriami, użytkownikami i zamówieniami. Poniżej przedstawiono główne tabele:
+
+1. Users: Przechowuje informacje o użytkownikach, w tym dane OAuth dla uwierzytelniania Google.
+2. Products: Zawiera szczegóły dotyczące komponentów, takie jak nazwa, opis, cena i obrazek.
+3. Categories: Organizuje produkty w logiczne grupy.
+4. Carts: Śledzi zamówienia po dodawaniu ich do koszyka.
+
+### Zaimplementowane Funkcje
+- Uwierzytelnianie:
+  - Logowanie za pomocą Google/e-mail.
+  - Standardowa rejestracja za pomocą e-maila/hasła.
+  - Funkcjonalność resetowania hasła i aktualizacji adresu e-mail.
+- Kategorie Produktów
+- Wyszukiwanie i Filtrowanie:
+  - Wielopoziomowe filtry oparte na różnych atrybutach produktów.
+  - Opcje sortowania według ceny kategorii.
+
+### Wyzwania Implementacyjne
+- Integracja OAuth: Konfiguracja API Google dla płynnego uwierzytelniania wymagała właściwego obsługi przekierowań i bezpiecznego przechowywania tokenów.
+  - Rozwiązanie: Wdrożono middleware Inertia.js, aby zapewnić płynne trasowanie.
+- Optymalizacja Bazy Danych: Złożone zapytania do filtrowania i sortowania były początkowo wolne.
+  - Rozwiązanie: Dodano indeksy do krytycznych kolumn i zoptymalizowano strukturę zapytań.
+- Złożoność Frontendu: Dynamiczne filtrowanie i sortowanie produktów w czasie rzeczywistym wymagało zaawansowanego zarządzania stanem aplikacji.
+  - Rozwiązanie: Wykorzystano hook useStatex do zarządzania stanem, co pozwoliło na płynną obsługę interfejsu użytkownika. Dodatkowo zoptymalizowano komponenty React, aby zmniejszyć zużycie zasobów.
+
+### Testowanie
+- Testy Automatyczne:
+  - Testy jednostkowe logiki backendu przy użyciu PHPUnit.
+  - Testy frontendu przy użyciu Jest i React Testing Library.
+- Testy Manualne:
+  - Przeprowadzono testy ręczne dla komponentów UI i przepływów płatności.
+- Testy Bezpieczeństwa:
+  - Zweryfikowano bezpieczeństwo przepływu OAuth i przeprowadzono podstawowe testy penetracyjne w celu wykrycia luk.
+
+### Zrzuty Ekranu
+
+## Wdrożenie
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
