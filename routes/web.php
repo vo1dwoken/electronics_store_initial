@@ -36,9 +36,15 @@ Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallb
 //     ]);
 // });
 
-Route::get('/about', function () {
-    return Inertia::render('About'); // This points to the About.jsx file
-})->name('about');
+// Route::get('/about', function () {
+//     return Inertia::render('About'); // This points to the About.jsx file
+// })->name('about');
+
+
+use App\Http\Controllers\AboutController;
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
 
 Route::get('/privacy', function () {
     return Inertia::render('Privacy'); // This points to the Privacy.jsx file

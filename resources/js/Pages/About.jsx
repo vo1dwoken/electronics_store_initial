@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, Head } from '@inertiajs/react';
 import Footer from '../Components/Footer';
 import Header from "../Components/Header";
+import ProductCard from "../Components/ProductCard"; // Імпортуємо ProductCard
 
-const About = () => {
+const About = ({ products }) => { // Передаємо продукти через пропси
     return (
         <div className="bg-black text-white min-h-screen p-6">
             <Head title="About Us" />
@@ -55,20 +56,9 @@ const About = () => {
                 <section>
                     <h3 className="text-xl font-bold mb-4">Top-rated products this month</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {Array(4)
-                            .fill(0)
-                            .map((_, index) => (
-                                <div
-                                    key={index}
-                                    className="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 transition"
-                                >
-                                    <div className="h-24 bg-gray-600 rounded-lg mb-4"></div>
-                                    <p className="font-semibold mb-2">Product {index + 1}</p>
-                                    <button className="bg-gray-700 px-3 py-1 rounded-md hover:bg-gray-600">
-                                        Add to cart
-                                    </button>
-                                </div>
-                            ))}
+                        {products.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
                     </div>
                 </section>
 
@@ -93,7 +83,6 @@ const About = () => {
                 </section>
             </main>
             <Footer page="about" />
-
         </div>
     );
 };
