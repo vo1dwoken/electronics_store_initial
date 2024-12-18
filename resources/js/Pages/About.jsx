@@ -1,10 +1,34 @@
-import React from 'react';
-import { Link, Head } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Link, Head } from '@inertiajs/react'; // Head вже імпортовано разом із Link
 import Footer from '../Components/Footer';
 import Header from "../Components/Header";
-import ProductCard from "../Components/ProductCard"; // Імпортуємо ProductCard
+import ProductCard from "../Components/ProductCard";
+
 
 const About = ({ products }) => { // Передаємо продукти через пропси
+
+    const [email, setEmail] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+
+    const onAddToCart = (product) => {
+        // Логіка додавання товару в кошик (можна тут використовувати Redux, Context API, або зберігати в localStorage)
+        console.log("Added to cart:", product);
+    };
+
+    const handleSubscribe = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(email)) {
+            setSuccessMessage('You have successfully subscribed to our newsletter!');
+            setErrorMessage('');
+            setEmail('');
+        } else {
+            setErrorMessage('Please enter a valid email address.');
+            setSuccessMessage('');
+        }
+    };
+
     return (
         <div className="bg-black text-white min-h-screen p-6">
             <Head title="About Us" />
@@ -57,7 +81,11 @@ const About = ({ products }) => { // Передаємо продукти чер�
                     <h3 className="text-xl font-bold mb-4">Top-rated products this month</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                onAddToCart={onAddToCart} // Передаємо функцію як пропс
+                            />
                         ))}
                     </div>
                 </section>
@@ -70,15 +98,28 @@ const About = ({ products }) => { // Передаємо продукти чер�
                     <p className="text-gray-400 mb-4">
                         Stay updated with the latest tech releases and exclusive deals!
                     </p>
-                    <div className="flex justify-center">
-                        <input
-                            type="email"
-                            placeholder="Enter your email here"
-                            className="w-2/3 md:w-1/3 p-3 rounded-l-lg text-black"
-                        />
-                        <button className="bg-red-600 px-6 py-3 rounded-r-lg text-white hover:bg-red-500">
-                            Subscribe
-                        </button>
+                    <div className="flex flex-col items-center">
+                        <div className="flex w-full md:w-2/3">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email here"
+                                className="w-full p-3 rounded-l-lg text-black"
+                            />
+                            <button
+                                onClick={handleSubscribe}
+                                className="bg-red-600 px-6 py-3 rounded-r-lg text-white hover:bg-red-500"
+                            >
+                                Subscribe
+                            </button>
+                        </div>
+                        {successMessage && (
+                            <p className="text-green-500 mt-4">{successMessage}</p>
+                        )}
+                        {errorMessage && (
+                            <p className="text-red-500 mt-4">{errorMessage}</p>
+                        )}
                     </div>
                 </section>
             </main>

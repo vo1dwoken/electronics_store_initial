@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
             'price' => 9000.00,
             'manufacturer_id' => $intel->id,
             'type' => 'cpu',
-            'image' => 'images/products/intel_i9_13900k.jpg',
+            'image' => 'intel_i9_13900k.jpg',
         ]);
 
         Product::create([
@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
             'price' => 8500.00,
             'manufacturer_id' => $amd->id,
             'type' => 'cpu',
-            'image' => 'images/products/amd_ryzen_7950x.jpg',
+            'image' => 'amd_ryzen_7950x.jpg',
         ]);
 
         Product::create([
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
             'price' => 5000.00,
             'manufacturer_id' => $nvidia->id,
             'type' => 'gpu',
-            'image' => 'images/products/nvidia_rtx_4090.jpg',
+            'image' => 'nvidia_rtx_4090.jpg',
         ]);
 
         Product::create([
@@ -52,7 +52,7 @@ class ProductSeeder extends Seeder
             'price' => 3500.00,
             'manufacturer_id' => $asus->id,
             'type' => 'motherboard',
-            'image' => 'images/products/asus_rog_b550f.jpg',
+            'image' => 'asus_rog_b550f.jpg',
         ]);
 
         Product::create([
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
             'price' => 4500.00,
             'manufacturer_id' => $gigabyte->id,
             'type' => 'motherboard',
-            'image' => 'images/products/gigabyte_z690_aorus.jpg',
+            'image' => 'gigabyte_z690_aorus.jpg',
         ]);
         Product::create([
             'name' => 'MSI GeForce RTX 4070 Super Ventus 2X OC',
@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
             'price' => 2700.00,
             'manufacturer_id' => $intel->id,
             'type' => 'gpu',
-            'image' => 'images/products/MSI-GeForce-RTX-4070-Super.jpg',
+            'image' => 'MSI-GeForce-RTX-4070-Super.jpg',
         ]);
         Product::create([
             'name' => 'MSI Mag Forge 112R ',
@@ -77,7 +77,7 @@ class ProductSeeder extends Seeder
             'price' => 300.00,
             'manufacturer_id' => $intel->id,
             'type' => 'case',
-            'image' => 'images/products/MSI-Mag-Forge-112R.jpg',
+            'image' => 'MSI-Mag-Forge-112R.jpg',
         ]);
     }
 }

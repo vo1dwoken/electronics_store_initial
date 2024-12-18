@@ -20,15 +20,16 @@ class CartController extends Controller
     }
 
     public function add(Request $request)
-    {
+{
+    try {
+        $request->validate([
+            'product_id' => 'required|integer|exists:products,id',
+        ]);
+
         $product = Product::find($request->product_id);
-        if (!$product) {
-            return back()->with('error', 'Product not found.');
-        }
 
         $cart = session('cart', []);
 
-        // Check if the product is already in the cart
         if (isset($cart[$product->id])) {
             $cart[$product->id]['quantity'] += $request->quantity ?? 1;
         } else {
@@ -43,7 +44,13 @@ class CartController extends Controller
         session(['cart' => $cart]);
 
         return back()->with('success', 'Product added to cart.');
+    } catch (\Exception $e) {
+        \Log::error("Error adding product to cart: " . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
+
 
     public function remove(Request $request)
     {

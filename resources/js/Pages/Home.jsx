@@ -4,6 +4,8 @@ import Header from "../Components/Header";
 import ProductCard from '../Components/ProductCard';
 import { useRoute } from '../../../vendor/tightenco/ziggy';
 import { Link, Head } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
+
 import { InertiaLink } from "@inertiajs/inertia-react";
 
 const Home = ({ products, categories }) => {
@@ -14,6 +16,31 @@ const Home = ({ products, categories }) => {
     const [maxPrice, setMaxPrice] = useState(9999); // Поточне значення повзунка
     const [minPrice, setMinPrice] = useState(0);
     const [searchQuery, setSearchQuery] = useState(''); // Стан для пошуку
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [cart, setCart] = useState([]);  // Створюємо стан для кошика
+
+    const handleAddToCart = (productId) => {
+        Inertia.post('/cart/add', { product_id: productId }, {
+            onSuccess: () => {
+                // Після успішного додавання товару, запитуємо актуальний кошик з сервера
+                Inertia.get('/cart', {
+                    onSuccess: (response) => {
+                        setItems(response.cartItems);
+                    },
+                });
+            },
+            onError: (errors) => {
+                console.error("Error adding to cart:", errors);
+            }
+        });
+    };
+
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);  // Перемикаємо видимість сайдбару
+    };
+
+
 
     useEffect(() => {
         const filtered = products.filter((product) =>
@@ -28,7 +55,6 @@ const Home = ({ products, categories }) => {
             setMaxPrice(highestPrice); // Оновлюємо значення повзунка
         }
     }, [products, selectedPartTypes]);
-
 
     const getFilteredProducts = () => {
         return products.filter((product) =>
@@ -105,7 +131,28 @@ const Home = ({ products, categories }) => {
         <div className="bg-black text-white min-h-screen">
             <Head title="Home" />
 
-            <Header page="home" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <Header page="home" searchQuery={searchQuery} setSearchQuery={setSearchQuery} toggleSidebar={toggleSidebar} />
+            {/* Sidebar */}
+            {isSidebarOpen && (
+                <div className="fixed top-0 right-0 w-80 h-full bg-gray-900 text-white shadow-lg p-6 z-50">
+                    <h3 className="text-xl font-bold mb-4">Your Cart</h3>
+                    <ul>
+                        {cart.length > 0 ? (
+                            cart.map(item => (
+                                <li key={item.id} className="mb-4">
+                                    <span>{item.name}</span>
+                                    <span>{item.price}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li>Your cart is empty.</li>
+                        )}
+                    </ul>
+                    <button onClick={toggleSidebar} className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg">
+                        Close
+                    </button>
+                </div>
+            )}
 
             {/* Main Section */}
             <main className="px-6 py-8">
@@ -229,7 +276,11 @@ const Home = ({ products, categories }) => {
                         {/* Product Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             {displayedProducts.map((product) => (
-                                <ProductCard key={product.id} product={product} />
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                    onAddToCart={() => handleAddToCart(product.id)} // Передаємо функцію
+                                />
                             ))}
                         </div>
 

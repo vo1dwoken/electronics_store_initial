@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 
+use Illuminate\Http\Request;
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+')->name('products.show');
@@ -20,26 +22,6 @@ Route::get("/foo", function () {
 
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
-// Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-//
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-// // Route::get('/', [HomeController::class, 'index']);  // Головна сторінка
-// Route::get('/categories', [CategoryController::class, 'index']);
-// Route::get('/cart', [CartController::class, 'index']);  // Кошик
-// Route::get('/checkout', [CheckoutController::class, 'index']);  // Оформлення замовлення
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/about', function () {
-//     return Inertia::render('About'); // This points to the About.jsx file
-// })->name('about');
-
 
 use App\Http\Controllers\AboutController;
 
@@ -56,7 +38,11 @@ Route::get('/product', function () {
 
 // Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart', function () {
+    return response()->json([
+        'cartItems' => Cart::all() // Це може бути ваш модель Cart або дані з сесії
+    ]);
+});
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
@@ -75,5 +61,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Route::post('/cart/add', function (Request $request) {
+//     $productId = $request->input('productId');
+
+//     // Додаємо товар до сесії
+//     $cart = session()->get('cart', []);
+//     $cart[$productId] = ($cart[$productId] ?? 0) + 1;
+//     session()->put('cart', $cart);
+
+//     dd(session('cart'));
+
+//     return back(); // Повернення на попередню сторінку
+// });
 
 require __DIR__ . '/auth.php';
