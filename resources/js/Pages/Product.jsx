@@ -6,6 +6,11 @@ const Product = ({ product }) => {
     console.log("Product Image:", product.image);
     console.log("Full Product Object:", product);
 
+    const defaultImage = '/images/default-noimage.jpg'; // Шлях до дефолтної картинки
+
+    // Перевіряємо, чи є картинка, і якщо немає - використовуємо дефолтну
+    const productImage = product.image ? `../${product.image}` : defaultImage;
+
     return (
         <div className="bg-black text-white min-h-screen">
             <Header page="product" />
@@ -14,7 +19,7 @@ const Product = ({ product }) => {
                 <div className="max-w-4xl mx-auto bg-gray-900 p-6 rounded-lg">
                     <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
                     <img
-                        src={"../" + product.image}
+                        src={productImage}  // Використовуємо правильне зображення
                         alt={product.name}
                         className="w-full h-64 object-contain mb-6 bg-gray-800 rounded-lg"
                     />

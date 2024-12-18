@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from '../Components/Footer';
 import Header from "../Components/Header";
 import ProductCard from '../Components/ProductCard';
@@ -10,8 +10,31 @@ const Home = ({ products, categories }) => {
     const [sortOption, setSortOption] = useState('Recommended');
     const [visibleProductsCount, setVisibleProductsCount] = useState(8); // Стан для кількості видимих продуктів
     const [selectedPartTypes, setSelectedPartTypes] = useState([]); // Фільтри по типу компонентів
-    const [minPrice, setMinPrice] = useState(0); // Мінімальна ціна
-    const [maxPrice, setMaxPrice] = useState(9999); // Максимальна ціна
+    const [dynamicMaxPrice, setDynamicMaxPrice] = useState(9999); // Ліміт для повзунка
+    const [maxPrice, setMaxPrice] = useState(9999); // Поточне значення повзунка
+    const [minPrice, setMinPrice] = useState(0);
+    const [searchQuery, setSearchQuery] = useState(''); // Стан для пошуку
+
+    useEffect(() => {
+        const filtered = products.filter((product) =>
+            selectedPartTypes.length > 0
+                ? selectedPartTypes.includes(product.type)
+                : true
+        );
+
+        if (filtered.length > 0) {
+            const highestPrice = Math.max(...filtered.map((product) => product.price));
+            setDynamicMaxPrice(highestPrice); // Оновлюємо ліміт
+            setMaxPrice(highestPrice); // Оновлюємо значення повзунка
+        }
+    }, [products, selectedPartTypes]);
+
+
+    const getFilteredProducts = () => {
+        return products.filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
 
     // Функція для вибору типів компонентів
     const togglePartType = (category) => {
@@ -29,6 +52,7 @@ const Home = ({ products, categories }) => {
             setMinPrice(value); // Оновлюємо мінімальну ціну тільки якщо вона не перевищує максимальну
         }
     };
+
 
     // Функція для зміни максимальної ціни
     const handleMaxPriceChange = (e) => {
@@ -54,6 +78,11 @@ const Home = ({ products, categories }) => {
         // Фільтр за ціною
         result = result.filter((product) => product.price >= minPrice && product.price <= maxPrice);
 
+        // Фільтрація за пошуковим запитом
+        result = result.filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
         // Сортування
         if (sortOption === 'Price: Low to High') {
             result = [...result].sort((a, b) => a.price - b.price);
@@ -76,7 +105,7 @@ const Home = ({ products, categories }) => {
         <div className="bg-black text-white min-h-screen">
             <Head title="Home" />
 
-            <Header page="home" />
+            <Header page="home" searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
             {/* Main Section */}
             <main className="px-6 py-8">
@@ -104,26 +133,68 @@ const Home = ({ products, categories }) => {
                         </ul>
                         <h3 className="text-lg font-bold mb-4">Filter by Price</h3>
                         <div className="mb-6">
-                            <label className="text-sm text-gray-400">Min Price: ${minPrice}</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="9999"
-                                value={minPrice}
-                                onChange={handleMinPriceChange} // Використовуємо оновлену функцію
-                                className="w-full"
-                            />
+                            <label className="text-sm text-gray-400">Min Price:</label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max={maxPrice}
+                                    value={minPrice || ''} // Якщо minPrice === 0, то пусте значення в інпуті, але все одно числове значення збережеться
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const numericValue = Number(value);
+                                        if (value === '') {
+                                            setMinPrice(0); // Встановлюємо 0, якщо інпут порожній
+                                        } else if (numericValue >= 0 && numericValue <= maxPrice) {
+                                            setMinPrice(numericValue);
+                                        }
+                                    }}
+                                    className="w-20 bg-gray-800 text-white rounded-md p-1 border border-gray-700 appearance-none"
+                                    placeholder="Min"
+                                />
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={dynamicMaxPrice}
+                                    value={minPrice}
+                                    onChange={handleMinPriceChange}
+                                    className="w-full"
+                                />
+                            </div>
                         </div>
+
                         <div className="mb-6">
-                            <label className="text-sm text-gray-400">Max Price: ${maxPrice}</label>
-                            <input
-                                type="range"
-                                min="0"
-                                max="9999"
-                                value={maxPrice}
-                                onChange={handleMaxPriceChange} // Використовуємо оновлену функцію
-                                className="w-full"
-                            />
+                            <label className="text-sm text-gray-400">Max Price:</label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="number"
+                                    min={minPrice}
+                                    max={dynamicMaxPrice}
+                                    value={maxPrice || ''} // Якщо maxPrice === 0, то порожній інпут, але значення збережеться
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const numericValue = Number(value);
+                                        if (value === '') {
+                                            setMaxPrice(dynamicMaxPrice); // Встановлюємо максимальну, якщо пустий
+                                        } else if (numericValue >= minPrice && numericValue <= dynamicMaxPrice) {
+                                            setMaxPrice(numericValue);
+                                        }
+                                    }}
+                                    className="w-20 bg-gray-800 text-white rounded-md p-1 border border-gray-700 appearance-none"
+                                    placeholder="Max"
+                                />
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={dynamicMaxPrice}
+                                    value={maxPrice}
+                                    onChange={(e) => {
+                                        const value = Number(e.target.value);
+                                        if (value >= minPrice) setMaxPrice(value);
+                                    }}
+                                    className="w-full"
+                                />
+                            </div>
                         </div>
 
                     </aside>
@@ -132,14 +203,17 @@ const Home = ({ products, categories }) => {
                     <div className="w-3/4">
                         <div className="flex justify-between items-center mb-4">
                             <div className="flex space-x-4">
-                                {['Top rated', 'Bestsellers', 'New arrivals', 'Sale'].map((category, index) => (
+                                {/* {['Top rated', 'Bestsellers', 'New arrivals', 'Sale'].map((category, index) => (
                                     <button
                                         key={index}
                                         className="px-4 py-2 bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white"
                                     >
                                         {category}
                                     </button>
-                                ))}
+                                ))} */}
+                                <div className="px-6 py-2  min-h-[40px] bg-gray-800 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white">
+                                    <Link href={route('about')}>About Us</Link>
+                                </div>
                             </div>
                             <select
                                 className="bg-gray-800 text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 pr-8"

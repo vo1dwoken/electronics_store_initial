@@ -1,10 +1,9 @@
 import { Link } from '@inertiajs/react';
 
-const Header = ({ page }) => {
-
+const Header = ({ page, searchQuery, setSearchQuery }) => {
     if (page === "home") {
         return (
-            <header >
+            <header>
                 <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
                     <Link href={route('home')} className="text-xl font-bold">
                         E-componenty
@@ -15,6 +14,8 @@ const Header = ({ page }) => {
                             type="text"
                             placeholder="Search components"
                             className="px-4 py-2 rounded-lg bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            value={searchQuery}  // Використовуємо переданий searchQuery
+                            onChange={(e) => setSearchQuery(e.target.value)} // Оновлюємо значення через setSearchQuery
                         />
                         <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">
                             View Cart
@@ -27,10 +28,11 @@ const Header = ({ page }) => {
                     <span className="text-white"> Shop</span>
                 </div>
             </header>
-
         );
     }
 
+    // Інші варіанти для "product", "about", "privacy"
+    // вони не змінилися
     if (page === "product") {
         return (
             <header>
@@ -40,7 +42,7 @@ const Header = ({ page }) => {
                             E-componenty
                         </Link>
                         <Link href={route('home')} className="flex items-center text-xl font-bold ml-2">
-                            <span className="text-2xl">/ &#8701;</span> {/* Збільшений розмір стрілки */}
+                            <span className="text-2xl">/ &#8701;</span>
                         </Link>
                     </div>
                     <div className="flex items-center gap-6">
@@ -48,6 +50,8 @@ const Header = ({ page }) => {
                             type="text"
                             placeholder="Search components"
                             className="px-4 py-2 rounded-lg bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            value={searchQuery} // Передаємо значення пошуку
+                            onChange={(e) => setSearchQuery(e.target.value)} // Оновлюємо searchQuery
                         />
                         <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">
                             View Cart
@@ -60,7 +64,6 @@ const Header = ({ page }) => {
                     <span className="text-white">/ Product</span>
                 </div>
             </header>
-
         );
     }
 
@@ -107,4 +110,3 @@ const Header = ({ page }) => {
 };
 
 export default Header;
-

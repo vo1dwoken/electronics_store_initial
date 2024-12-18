@@ -3,7 +3,13 @@ import { Link } from '@inertiajs/react';
 
 const ProductCard = ({ product }) => {
 
-    console.log("Product Image:", product.image);
+    // Ваше дефолтне зображення
+    const defaultImage = '/images/default-noimage.jpg'; // Використовуємо відносний шлях
+
+    // Перевірка наявності картинки в продукті, якщо її немає, використовуємо дефолтну
+    const productImage = product.image ? product.image : defaultImage;
+
+    console.log("Product Image:", productImage);
     console.log("Full Product Object:", product);
 
     return (
@@ -11,14 +17,14 @@ const ProductCard = ({ product }) => {
             {/* Картинка продукту */}
             <Link href={`/products/${product.id}`}>
                 <img
-                    src={product.image}
+                    src={productImage}
                     alt={product.name}
                     className="bg-gray-600 h-40 mb-4 rounded-md object-contain w-full"
                 />
                 <h4 className="text-lg font-semibold mb-2">{product.name}</h4>
                 <p className="text-gray-400 mb-2">${product.price}</p>
             </Link>
-    
+
             {/* Заповнювач, щоб кнопки були внизу */}
             <div className="flex-grow"></div>
 
@@ -31,7 +37,7 @@ const ProductCard = ({ product }) => {
                 >
                     Description
                 </Link>
-    
+
                 {/* Кнопка "Buy Now" - темніша справа */}
                 <button className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-600 w-full sm:w-auto sm:px-4 sm:py-2">
                     Buy Now

@@ -43,7 +43,7 @@ const About = ({ products }) => { // Передаємо продукти чер�
                         <p className="text-gray-400">Products</p>
                     </div>
                     <div>
-                        <h3 className="text-2xl font-bold">500</h3>
+                        <h3 className="text-2xl font-bold">100+</h3>
                         <p className="text-gray-400">Manufacturers</p>
                     </div>
                     <div>

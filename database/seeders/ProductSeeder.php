@@ -16,6 +16,7 @@ class ProductSeeder extends Seeder
         $nvidia = Manufacturer::where('name', 'NVIDIA')->first();
         $asus = Manufacturer::where('name', 'ASUS')->first();
         $gigabyte = Manufacturer::where('name', 'Gigabyte')->first();
+        // $msi = Manufacturer::where('name', 'MSI')->first();
 
         // Додаємо продукти
         Product::create([
@@ -39,7 +40,7 @@ class ProductSeeder extends Seeder
         Product::create([
             'name' => 'NVIDIA GeForce RTX 4090',
             'description' => 'Відеокарта NVIDIA GeForce RTX 4090 для максимального ігрового досвіду.',
-            'price' => 25000.00,
+            'price' => 5000.00,
             'manufacturer_id' => $nvidia->id,
             'type' => 'gpu',
             'image' => 'images/products/nvidia_rtx_4090.jpg',
@@ -61,6 +62,22 @@ class ProductSeeder extends Seeder
             'manufacturer_id' => $gigabyte->id,
             'type' => 'motherboard',
             'image' => 'images/products/gigabyte_z690_aorus.jpg',
+        ]);
+        Product::create([
+            'name' => 'MSI GeForce RTX 4070 Super Ventus 2X OC',
+            'description' => 'Karta graficzna GeForce RTX 4070 i pamięcią 12 GB. Karta obsługuje standardy DirectX 12 Ultimate, Open GL 4.6. Posiada wyjścia 1 x HDMI, 3 x DisplayPort. Typ złącza to PCI-Express 4.0 x 16.',
+            'price' => 2700.00,
+            'manufacturer_id' => $intel->id,
+            'type' => 'gpu',
+            'image' => 'images/products/MSI-GeForce-RTX-4070-Super.jpg',
+        ]);
+        Product::create([
+            'name' => 'MSI Mag Forge 112R ',
+            'description' => 'Przedstawiamy obudowę MSI Mag Forge 112R, która jest połączeniem innowacyjnego designu z najwyższą jakością wykonania, dzięki użyciu najlepszych komponentów. Dlatego cena tego produktu jest wprost zachwycająca i przystępna. Obudowa jest doskonałym wyborem zarówno dla początkującego miłośnika gamingu, jak i profesjonalnego gamera, a także wszystkich tych, którzy chcą samodzielnie stworzyć wydajny system komputerowy od A do Z.',
+            'price' => 300.00,
+            'manufacturer_id' => $intel->id,
+            'type' => 'case',
+            'image' => 'images/products/MSI-Mag-Forge-112R.jpg',
         ]);
     }
 }
